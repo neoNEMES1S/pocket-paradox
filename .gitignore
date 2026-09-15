@@ -5,3 +5,29 @@ local.properties
 *.jks
 *.keystore
 .DS_Store
+
+# Local IDE and agent state
+.idea/
+*.iml
+.kotlin/
+.codex/
+.agents/
+PROJECT_CONTEXT.md
+
+# Generated distribution files (screenshots remain versioned)
+dist/*.apk
+dist/*.aab
+dist/*.zip
+dist/SHA256SUMS.txt
+
+# Local credentials and signing material
+.env
+.env.*
+!.env.example
+keystore.properties
+key.properties
+*.p12
+*.pfx
+*.key
+*.pem
+*.log

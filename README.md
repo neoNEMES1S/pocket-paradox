@@ -4,7 +4,7 @@ An original Android puzzle-game foundation inspired by the boxes-within-boxes id
 
 ## Play
 
-Install `dist/pocket-paradox-debug.apk` on Android 8.0 or newer. This development APK is signed with a debug key for direct installation; it is not a Play Store release.
+Build the debug APK using the instructions below, then install `app/build/outputs/apk/debug/app-debug.apk` on Android 8.0 or newer. In Android Studio, select the `app` Android App run configuration and a device, then click Run to build, install, and launch. Debug APKs are signed with a development key; they are not Play Store releases. Generated APKs and source archives are not tracked in this repository.
 
 Move the coral explorer with the direction buttons, board swipes, arrow keys, or WASD. Push crates or room boxes onto square-ring goals, then finish on the coral cross. A room box moves first; when blocked, its open center doorway lets a piece enter. Walk through a room's centered opening to exit beside its box in the parent room. Moving a room box carries its contents. Undo is also available with Z.
 
@@ -14,7 +14,7 @@ Progress and current positions persist across app restarts. Undo history survive
 
 ## Build
 
-Use JDK 17 or newer, Android SDK platform 36, and an Android SDK location in `ANDROID_HOME` or an untracked `local.properties` file. The checked-in Gradle wrapper uses Gradle 8.14.3 and Android Gradle Plugin 8.13.0. Android Studio can open this directory directly. The first build may download build tools.
+Use Android SDK platform 36 and an Android SDK location in `ANDROID_HOME` or an untracked `local.properties` file. The checked-in Gradle wrapper uses Gradle 9.6.0 and Android Gradle Plugin 9.4.0; daemon JVM criteria select JetBrains JDK 21, while Java source targets 17. Android Studio can open this directory directly. The first build may download the JDK and build tools.
 
 ```sh
 export JAVA_HOME=/path/to/your/jdk
@@ -59,4 +59,3 @@ This is a playable **finite-nesting foundation**, not full gameplay parity with 
 Native buttons have accessibility labels, goals use distinct glyphs, and the board describes player/piece/goal coordinates to accessibility services. Portrait pages can scroll on small screens or enlarged fonts, and landscape uses side-by-side play and controls. A dedicated nonvisual puzzle-navigation mode remains future work.
 
 The [official game description](https://www.patricksparabox.com/) and [creator interview](https://www.gamedeveloper.com/design/patrick-s-parabox-/) informed the mechanical scope. No original game files or levels were used.
-# pocket-paradox
