@@ -1,20 +1,99 @@
+<div align="center">
+
 # Pocket Paradox
 
-An original Android puzzle-game foundation inspired by the boxes-within-boxes idea in [Patrick's Parabox](https://www.patricksparabox.com/). All code, puzzles, and drawn artwork in this project are new.
+### Small rooms. Unexpected possibilities.
 
-## Play
+A puzzle game for Android where the box you push can be a world you step inside.
 
-Build the debug APK using the instructions below, then install `app/build/outputs/apk/debug/app-debug.apk` on Android 8.0 or newer. In Android Studio, select the `app` Android App run configuration and a device, then click Run to build, install, and launch. Debug APKs are signed with a development key; they are not Play Store releases. Generated APKs and source archives are not tracked in this repository.
+**12 original puzzles · 3 chapters · Offline play · Android 8.0+**
 
-Move the coral explorer with the direction buttons, board swipes, arrow keys, or WASD. Push crates or room boxes onto square-ring goals, then finish on the coral cross. A room box moves first; when blocked, its open center doorway lets a piece enter. Walk through a room's centered opening to exit beside its box in the parent room. Moving a room box carries its contents. Undo is also available with Z.
+[Take a look](#take-a-look) · [Learn the rules](#your-first-moves) · [Build & play](#build--play) · [Explore the code](#where-to-work)
 
-The app includes a home screen, three chapters, 12 original puzzles, sequential unlocking, replay, best move counts, saved in-progress play, touch-feedback settings, and help. It works offline and requests no permissions. No accounts, network services, ads, or analytics.
+</div>
 
-Progress and current positions persist across app restarts. Undo history survives rotation and other configuration changes, but starts fresh after the process is closed. Selecting the current unsolved puzzle resumes it; Restart explicitly resets it. Reset all progress has a confirmation.
+---
 
-## Build
+Push a crate. Find a doorway. Step into the box you were just moving.
 
-Use Android SDK platform 36 and an Android SDK location in `ANDROID_HOME` or an untracked `local.properties` file. The checked-in Gradle wrapper uses Gradle 9.6.0 and Android Gradle Plugin 9.4.0; daemon JVM criteria select JetBrains JDK 21, while Java source targets 17. Android Studio can open this directory directly. The first build may download the JDK and build tools.
+Pocket Paradox turns a familiar grid into a series of worlds within worlds. Carry a room across the board, guide cargo through its doors, and discover how a small change outside can open a path inside. Every puzzle invites you to pause, experiment, and try another move.
+
+## Take a look
+
+<table>
+  <tr>
+    <td align="center"><img src="dist/screenshots/01-home.png" width="250" alt="Pocket Paradox home screen" /><br /><strong>Your next small adventure</strong></td>
+    <td align="center"><img src="dist/screenshots/02-first-puzzle.png" width="250" alt="The first puzzle, with a crate, a box goal, and the coral explorer" /><br /><strong>Start with a little nudge</strong></td>
+    <td align="center"><img src="dist/screenshots/04-nested-worlds.png" width="250" alt="One more world: the explorer inside an inner room, with a preview of the surrounding worlds" /><br /><strong>Find a world within a world</strong></td>
+  </tr>
+</table>
+
+<details>
+<summary>More screenshots — chapters, landscape play, and the finish line</summary>
+
+### Choose your next puzzle
+
+<img src="dist/screenshots/06-level-selection.png" width="300" alt="Chapter and puzzle selection screen" />
+
+### Turn your perspective
+
+<img src="dist/screenshots/03-landscape.png" width="760" alt="Landscape gameplay with the board and controls side by side" />
+
+### Complete the journey
+
+<img src="dist/screenshots/05-campaign-complete.png" width="300" alt="Campaign completion screen after finishing all twelve puzzles" />
+
+</details>
+
+## Three chapters. One expanding idea.
+
+| Chapter | Your challenge |
+| --- | --- |
+| **01 · First moves** | Learn to push, make space, and plan your next step. |
+| **02 · Worlds within** | Cross a doorway and discover rooms inside rooms. |
+| **03 · Moving worlds** | Carry rooms and deliver cargo across their boundaries. |
+
+Unlock puzzles in sequence, then revisit completed levels to improve your best move count.
+
+- **Experiment freely.** Undo a move or restart when you want a fresh approach.
+- **Pick up where you left off.** Progress and your current puzzle are saved locally.
+- **Play your way.** Use direction buttons, swipes, arrow keys, or WASD, in portrait or landscape.
+- **Keep it quiet.** No accounts, ads, analytics, network services, or requested permissions. The game works offline.
+
+> **A challenge for your second playthrough:** revisit a solved puzzle and beat your own move count.
+
+## Your first moves
+
+1. Move the **coral explorer** around the board.
+2. Push crates or room boxes onto the **square-ring goals**.
+3. When a room box cannot move, approach its open center doorway to **step inside**.
+4. Leave through a room's centered opening to emerge beside its box in the outer room.
+5. Fill every box goal, then stand on the **coral cross** to finish.
+
+Moving a room box carries everything inside it. That is where the puzzles start to unfold.
+
+| Action | Controls |
+| --- | --- |
+| Move | On-screen arrows, board swipes, arrow keys, or WASD |
+| Undo | Undo button or Z |
+| Start the puzzle again | Restart button |
+
+## Build & play
+
+Pocket Paradox is a native Java Android app, currently version **0.1.0**. Build a debug APK locally to play on a device or emulator; generated APKs are not tracked in this repository.
+
+### Android Studio
+
+1. Open this repository in Android Studio and let Gradle sync finish.
+2. Install **Android SDK Platform 36** if prompted, and create or start an emulator in Device Manager. A connected Android 8.0+ phone also works.
+3. Select the **app** Android App run configuration and your device.
+4. Click **Run ▶** to build, install, and launch the game.
+
+Running `:app:testDebugUnitTest` only runs the unit-test task; use the app run configuration to install and launch the game.
+
+### Command line
+
+Use a local JDK and Android SDK installation:
 
 ```sh
 export JAVA_HOME=/path/to/your/jdk
@@ -22,9 +101,36 @@ export ANDROID_HOME=/path/to/your/android/sdk
 ./gradlew :app:assembleDebug
 ```
 
-Output: `app/build/outputs/apk/debug/app-debug.apk`.
+The APK is written to:
 
-Build an unsigned release bundle using `./gradlew :app:bundleRelease`; configure your own release signing before publishing. A production application ID, release key, store listing, wider device testing, and a longer campaign are release tasks.
+```text
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+Drag that APK onto a running Android emulator, or install it on a connected device with:
+
+```sh
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
+
+Then open **Pocket Paradox** from the app drawer.
+
+<details>
+<summary>Build configuration and release notes</summary>
+
+The checked-in wrapper uses **Gradle 9.6.0** and **Android Gradle Plugin 9.4.0**. Daemon JVM criteria select **JetBrains JDK 21**, while Java source targets **17**. The app compiles and targets SDK **36**, with a minimum SDK of **26**. The first build may download the JDK and build tools.
+
+You can also set the SDK location in an untracked `local.properties` file. Debug APKs use a development signing key.
+
+To build a release bundle:
+
+```sh
+./gradlew :app:bundleRelease
+```
+
+Configure your own release signing before publishing. A production application ID, release key, store listing, wider device testing, and a longer campaign remain release tasks.
+
+</details>
 
 ## Check the rules
 
