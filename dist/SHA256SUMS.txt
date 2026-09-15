@@ -1,2 +1,0 @@
-b9885501791fcf3c51bb984a02406bd0e0592621e23bc351e8ce77ebcfda93be  pocket-paradox-debug.apk
-86cdba5bdda99ac39b6a72d4e5cd821c8e8d20519310fdc69f78ab7d98955e91  pocket-paradox-source.zip
