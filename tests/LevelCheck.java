@@ -9,8 +9,15 @@ public final class LevelCheck {
         assert Levels.ALL.length == 12 : "Expected twelve teaching puzzles";
         assert Levels.SOLUTIONS.length == Levels.ALL.length;
         assert Levels.CHAPTERS.length == 3;
+        assert Levels.CHAPTER_STARTS.length == Levels.CHAPTERS.length;
+        assert Levels.CHAPTER_STARTS[0] == 0;
+        for (int i = 1; i < Levels.CHAPTER_STARTS.length; i++)
+            assert Levels.CHAPTER_STARTS[i] > Levels.CHAPTER_STARTS[i-1]
+                    && Levels.CHAPTER_STARTS[i] < Levels.ALL.length;
+        assert Levels.TEACHING.length == Levels.ALL.length;
         for (int i = 0; i < Levels.ALL.length; i++) {
             Engine game = new Engine(Levels.ALL[i]);
+            for (int step = 1; step <= 3; step++) assert !Levels.hint(i, step).isBlank();
             assert !game.won() : "Puzzle starts solved: " + i;
             String moves = Levels.SOLUTIONS[i];
             assert !moves.isEmpty() && moves.length() < 60 : "Missing or overly long solution: " + i;

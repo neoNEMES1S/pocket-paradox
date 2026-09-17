@@ -18,13 +18,15 @@ An original, quiet spatial puzzle: small rooms contain smaller rooms. The interf
 | Goal / selected state | `#FFD789` |
 | Text on bright fills | `#101820` |
 
-Use Android system sans: 34sp bold for the home title, 24sp medium for screen titles, 18sp medium for primary buttons, 16sp regular for explanatory text, 13sp medium for metadata. Keep main text at least 4.5:1 contrast. Spacing uses 4dp increments; screen padding 24dp, control gaps 8–12dp, card padding 20dp. Surfaces use 16dp corner radii; large actions 14dp; board cells 5–8% of their cell size. Use flat color and an occasional one-pixel inset stroke; avoid glow, gradients, and decorative card stacks.
+Use the Android system serif for the wordmark and puzzle titles, and system sans for controls and supporting text. Keep main text at least 4.5:1 contrast. Spacing uses 4dp increments; screen padding 24dp, control gaps 8–12dp, card padding 16–20dp. Surfaces use 16dp corner radii; actions 14dp; board cells 5–8% of their cell size.
+
+The 0.2 polish pass adds a restrained background gradient from `#101820` to `#1B2440`. Movable pieces have a small contact shadow and a fine upper highlight: explorer `#FFB39A` → `#FF887E`, room frames `#B9F2D6` → `#79CFAE`, crates `#C3B8F5` → `#998BDD`. Keep board tiles flat for readability. Gold activation rings and six small square particles appear briefly on newly filled goals; no continuous particles or screen shake.
 
 ## Home
 
 Top: small uppercase “A LITTLE SPACE TO THINK” eyebrow, then two-line “Pocket / Paradox” wordmark. A compact nested-square motif in mint, violet, and coral sits in the middle of generous negative space. Beneath: one-line promise “Find a way in. Think your way out.”
 
-Bottom action stack: coral **Continue · 03** (or **Start exploring** for fresh progress), outlined **Choose a puzzle**, then a small row containing **How to play** and **Settings**. Show a plain completion count such as “2 of 18 puzzles complete” near the primary action. No currency, daily streaks, or account controls.
+Bottom action stack: mint **Continue exploring** (or **Begin exploring** for fresh progress), secondary **Choose a puzzle**, then **How to play** and **Settings**. Derive completion counts from the campaign. No currency, daily streaks, or account controls.
 
 ## Puzzle selection
 
@@ -40,10 +42,18 @@ Place **Undo** and **Restart** in one row immediately below the board or hint. U
 
 ## Completion and settings
 
-Completion uses a compact native dialog: **A way through.**, “Puzzle 03 complete · 12 moves”, coral **Next puzzle**, and **Choose puzzle**. Keep final-board state visible behind it. On the final puzzle, primary action returns to selection and copy reads **Every room explored.**
+Completion uses an inline result panel: **A way through.**, move count and personal best, then mint **Next puzzle**. Keep the final board visible. On the final puzzle, the action returns home and the panel reads **Every room explored.**
 
-Settings remain a short native screen/dialog with vibration toggle, motion preference if animation exists, and progress reset. Progress reset requires a native destructive confirmation; changing settings never erases progress. Respect system font scale, safe areas, reduce-motion preference where available, and landscape by placing board and controls side by side or permitting scrolling.
+Settings include independent vibration and sound toggles, reduced motion, local privacy information, and confirmed progress reset. Reset preserves these preferences. Respect system font scale, safe areas, disabled system animations, and landscape by placing board and controls side by side or permitting scrolling.
 
 ## Motion
 
-Optional board transitions are 100–140ms ease-out; room focus changes at most 180ms. Never delay accepted movement while animating and never require motion to understand a room transition. One subtle vibration on a successful push is sufficient when enabled. Start with native ripple feedback and immediate movement; additional animation can follow once the mechanic is proven.
+Tile movement takes 130ms with cubic ease-out; room entry/exit takes 210ms. Rules update immediately; rapid same-room input starts from the currently displayed position. Undo uses the same path. Room changes zoom between the containing box and the active board. Cargo crossing a room boundary fades between its two valid positions rather than interpolating unrelated coordinates. A blocked attempt produces a 120ms character bump. Goal feedback ends by 450ms, completion feedback by 500ms. Rendering is event-driven and stops when an effect finishes.
+
+Reduced motion uses immediate positions and persistent goal checks, doorway marks, breadcrumbs, and an outlined outside preview. Audio uses eight original synthesized chimes (regenerated with `tools/make_sounds.py`); no ambient music. Stop audio and settle animation when backgrounded.
+
+Room changes also trigger a 480ms portal reveal: mint and violet square halos expand from the containing box on entry (contract on exit), with twelve small orbiting sparks and a faint mint wash. This effect has its own short animation so the next ordinary move does not erase it. Another room change replaces it; undo, backgrounding, navigation, and reduced motion cancel it immediately.
+
+## Teaching and hints
+
+The existing 12 puzzles retain their titles, geometry, order, and save fingerprints. Show brief teaching text at the start of an unsolved puzzle, then let the player request three authored hints: nudge, existing level hint, concrete guidance. Chapter boundaries are explicit rather than assuming four puzzles per chapter. Expand toward 24–36 puzzles after observing new players complete this polish preview.

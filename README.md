@@ -58,6 +58,8 @@ Unlock puzzles in sequence, then revisit completed levels to improve your best m
 - **Experiment freely.** Undo a move or restart when you want a fresh approach.
 - **Pick up where you left off.** Progress and your current puzzle are saved locally.
 - **Play your way.** Use direction buttons, swipes, arrow keys, or WASD, in portrait or landscape.
+- **Follow the motion.** Smooth moves and room zooms, goal sparkles, and soft original chimes. Sound, vibration, and reduced motion have independent settings.
+- **Ask for a nudge.** Reveal up to three authored hints per puzzle, only when you want help.
 - **Keep it quiet.** No accounts, ads, analytics, network services, or requested permissions. The game works offline.
 
 > **A challenge for your second playthrough:** revisit a solved puzzle and beat your own move count.
@@ -80,7 +82,7 @@ Moving a room box carries everything inside it. That is where the puzzles start 
 
 ## Build & play
 
-Pocket Paradox is a native Java Android app, currently version **0.1.0**. Build a debug APK locally to play on a device or emulator; generated APKs are not tracked in this repository.
+Pocket Paradox is a native Java Android app, currently version **0.2.0** (polish preview). Build a debug APK locally to play on a device or emulator; generated APKs are not tracked in this repository.
 
 ### Android Studio
 
@@ -130,6 +132,8 @@ To build a release bundle:
 
 Configure your own release signing before publishing. A production application ID, release key, store listing, wider device testing, and a longer campaign remain release tasks.
 
+See [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) for the device, playtesting, and publishing gates. The original campaign is intentionally retained until this polish pass has been tested with new players.
+
 </details>
 
 ## Check the rules
@@ -147,6 +151,16 @@ An optional UI check runs on a connected **emulator only**, with the APK already
 python3 tests/android_smoke.py /path/to/adb emulator-5580 --reset-test-data
 ```
 
+To preserve an existing emulator installation, build a separate test package with fresh outputs:
+
+```sh
+./gradlew -I tools/verification.gradle -PisolatedUiTest :app:assembleDebug
+adb -s emulator-5580 install -r build/polish-verification/app-ui/outputs/apk/debug/app-debug.apk
+POCKET_TEST_PACKAGE=com.pocketparadox.game.polishtest python3 tests/android_smoke.py /path/to/adb emulator-5580 --reset-test-data
+```
+
+Omit `-PisolatedUiTest` to build the normal package into `build/polish-verification/app/`. This also provides a fresh output directory when an existing `app/build` cache is unreadable.
+
 ## Where to work
 
 | File | Responsibility |
@@ -154,7 +168,12 @@ python3 tests/android_smoke.py /path/to/adb emulator-5580 --reset-test-data
 | `app/src/main/java/com/pocketparadox/game/Engine.java` | Android-independent movement, room ownership, undo, goals, persistence |
 | `app/src/main/java/com/pocketparadox/game/Levels.java` | Original campaign, teaching hints, and solution transcripts |
 | `app/src/main/java/com/pocketparadox/game/MainActivity.java` | Native screens, Canvas board, controls, lifecycle, progress |
+| `app/src/main/java/com/pocketparadox/game/BoardMotion.java` | Presentation snapshots, easing, interrupted movement, goal events |
+| `app/src/main/java/com/pocketparadox/game/GameAudio.java` | Native sound effects and audio-focus lifecycle |
 | `tests/EngineCheck.java` and `tests/LevelCheck.java` | Runnable rule and campaign checks |
+| `tests/MotionCheck.java` | Rapid input, goal events, room-crossing and undo regression checks |
+
+Sound assets are original synthesized WAV files, reproducible with `python3 tools/make_sounds.py` using Python's standard library.
 
 Rooms use `#` for walls, `.` for floor, `o` for a box goal, and `@` for the single player goal. Piece 0 is the player. A piece's `inside` field identifies its interior room, or is -1 for an ordinary crate/player. Each nonroot room belongs to exactly one box. Save files include a level fingerprint and reject invalid geometry or containment.
 

@@ -1,0 +1,11 @@
+// Fresh outputs avoid stale local caches. Optional test ID preserves the installed game's saves.
+// ./gradlew -I tools/verification.gradle [-PisolatedUiTest] :app:assembleDebug
+allprojects {
+    layout.buildDirectory = file(rootProject.projectDir.toString() + '/build/polish-verification/' + project.name
+            + (providers.gradleProperty('isolatedUiTest').isPresent() ? '-ui' : ''))
+    afterEvaluate {
+        if (project.name == 'app' && providers.gradleProperty('isolatedUiTest').isPresent()) {
+            android.buildTypes.debug.applicationIdSuffix = '.polishtest'
+        }
+    }
+}
