@@ -9,7 +9,7 @@ Version 0.2.0, version code 2. Original engine, level geometry/order, and PP1 sa
 | Debug APK and release AAB | Built with the checked-in fresh-output verification script |
 | APK signature | Verified APK Signature Scheme v2 debug signature |
 | Release bundle signing | Confirmed unsigned; owner upload credentials still required |
-| Android lint | 0 errors, 12 warnings; remaining warnings concern SDK/toolchain freshness, backup metadata, and English-only UI text |
+| Android lint | 0 errors, 11 warnings; remaining warnings concern SDK/toolchain freshness and English-only UI text |
 | Emulator campaign | All 12 levels completed through Android input on API 37 ARM64 |
 | UI/lifecycle | Hints, independent settings, rotation retaining undo, process restart, restart confirmation, nested-room undo burst, saved progress, and preference persistence passed |
 | Visual review | Updated home, portrait play, landscape, nested preview, results, selection, and enlarged-text screenshots |
@@ -29,6 +29,8 @@ POCKET_TEST_PACKAGE=com.pocketparadox.game.polishtest python3 tests/android_smok
 The existing default `app/build` cache contains an unreadable `merger 2.xml`; the default build still fails on that pre-existing cache. An attempted recoverable move timed out without moving it. Fresh outputs under `build/polish-verification/` avoid the issue; the verification script is checked in so the successful build is reproducible.
 
 Deliverables: `dist/pocket-paradox-0.2.0-debug.apk`, `dist/pocket-paradox-0.2.0-unsigned.aab`, and updated `dist/screenshots/`.
+
+World-entry follow-up: added a separate 480ms mint/violet portal halo, orbiting sparks, and soft wash. Java checks cover the effect envelope; the isolated API 37 emulator passed entry followed immediately by another move, undo across the boundary, and normal-speed re-entry. `08-world-entry-portal.png` captures the effect with animator duration temporarily slowed for inspection; the original system and reduced-motion settings were restored. APK and unsigned bundle were rebuilt with the effect.
 
 Not verified: physical-device frame pacing/battery use, audible sound quality (emulator ran without host audio), audio interruption behavior on a phone, TalkBack usability, runtime on API 26/36, or human difficulty/onboarding feedback. Campaign expansion remains behind that human playtest gate. See `RELEASE_CHECKLIST.md` for publishing requirements; nothing has been submitted to Google Play.
 
